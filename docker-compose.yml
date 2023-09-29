@@ -5,9 +5,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db
+      MYSQL_DATABASE: testing
     volumes:
-      - ./db:/var/lib/mysql
+      - db:/var/lib/mysql
     ports:
       - 3306:3306
 

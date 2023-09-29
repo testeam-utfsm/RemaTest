@@ -24,6 +24,28 @@ app.use('/', indexRouter);
 
 app.use('/api/products', productsRouter);
 
+var mysql = require('mysql2');
+const { body, validationResult } = require('express-validator');
+
+const database = mysql.createConnection({
+  user: "root",
+  host: "127.0.0.1",
+  port: "3306",
+  password: "root",
+  database: "testing",
+  insecureAuth : true
+});
+database.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  var sql = "CREATE TABLE IF NOT EXISTS products (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), price INT)";
+  database.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table created");
+  });
+});
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
