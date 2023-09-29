@@ -18,7 +18,8 @@ exports.up = function(db) {
   return db.createTable('users',{
     id: {
       type: 'int',
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     email: 'string',
     administrator: 'int',

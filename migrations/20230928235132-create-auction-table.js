@@ -18,7 +18,8 @@ exports.up = function(db, callback) {
   return db.createTable('auctions', {
     id: {
       type: 'int',
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     name: 'string',
     base_price: 'int',
