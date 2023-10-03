@@ -4,32 +4,36 @@
             <div class="form-holder">
                 <div class="form-content">
                     <div class="form-items">
-                        <h2>Crea una subasta</h2>
-                        <form class="requires-validation" novalidate>
+                        <h3>Crea una subasta</h3>
+                        <div class="requires-validation" novalidate >
                             <div class="col-md-12">
-                               <input class="form-control" type="text" name="product" placeholder="Nombre producto" required>
+                               <input class="form-control" type="text" name="product" v-model="formData.product" placeholder="Nombre producto" required>
                             </div>
                             <div class="col-md-12">
-                                <input class="form-control" type="text" name="base_price" placeholder="Precio Base" required>
+                                <input class="form-control" type="text" name="base_price" v-model="formData.base_price" placeholder="Precio Base" required>
                             </div>
-                            <div class='col-sm-12'>
-                                <input type='text' class="form-control" name='start_date' placeholder="Fecha Inicio" required />
+                            <div class="col-md-12" style="margin-top: 20px;">
+                                <input
+                                type="datetime-local"
+                                id="meeting-time"
+                                name="meeting-time"
+                                v-model="formData.start_date"
+                                />
                             </div>
-                            <div class='col-sm-12'>
-                                <input type='text' class="form-control" id='end_date' placeholder="Fecha Fin" required />
+                            <div class="col-md-12" style="margin-top: 20px;">
+                                <input
+                                type="datetime-local"
+                                id="meeting-time"
+                                name="meeting-time"
+                                v-model="formData.end_date"
+                                />
                             </div>
-                            <div id="datepicker" class="input-group date" data-provide="datepicker">
-                                <input class="form-control" type="text" readonly />
-                                <div class="input-group-addon">
-                                    <i class="far fa-calendar-alt"></i>
-                                </div>
-                            </div>
-
                             <div class="form-button mt-3" style="margin-top: 20px;">
-                                <button id="submit" type="submit" class="btn btn-secondary">Registrar</button>
+                                <button id="submit" @click="handleSubmit" type="submit" class="btn btn-secondary">Registrar</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
+                    <router-link to="/about" class="btn btn-primary">Ver subastas</router-link>
                 </div>
             </div>
         </div>
@@ -39,20 +43,42 @@
 <script>
 import 'bootstrap'; 
 import 'bootstrap-datepicker';
+import 'jquery';
+const axios = require('axios');
+
 
 export default {
   data() {
     return {
-      products: "234",
+      formData:{
+        product : '',
+        base_price: '',
+        start_date:'',
+        end_date: ''
+      },
     };
   },
-  mounted() {
-      $("#datepicker").datepicker({ 
-        format: 'mm-dd-yyyy',
-        autoclose: true, 
-        todayHighlight: true,
-      }).datepicker('update', new Date());
+  mounted() {    
   },
+  methods:{
+    handleSubmit(){
+        // window.alert(this.formData.product, this.formData.start_date.replace("T"," ") + ':00')
+        axios.post("http://localhost:3000/api/auctions?", {
+            name: this.formData.product,
+            base_price: this.formData.base_price,
+            start_date: this.formData.start_date.replace("T"," ") + ':00',
+            end_date: this.formData.end_date.replace("T"," ") + ':00',
+        })
+        .then(res => {
+            console.log(res);
+            window.alert("Subasta creada con exito")
+        })
+        .catch(error => {
+            console.log(error);
+            window.alert("Error al crear subasta")
+        });
+    }
+  }
 };
 </script>
 
@@ -70,7 +96,6 @@ export default {
 html, body {
     height: 100%;
     background-color: #152733;
-    overflow: hidden;
 }
 
 
@@ -205,6 +230,14 @@ html, body {
 
 .valid-feedback{
    color: #2acc80;
+}
+.datepicker {
+    width: 100%;
+    max-width: 200px; 
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 </style>

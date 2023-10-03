@@ -1,11 +1,10 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
 import App from './App.vue'
+import './registerServiceWorker'
 import router from './router'
 
-const app = createApp(App)
+global.jQuery = require('jquery');
+var $ = global.jQuery;
+window.$ = $;
 
-app.use(router)
-
-app.mount('#app')
+createApp(App).use(router).mount('#app')
