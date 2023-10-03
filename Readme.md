@@ -3,7 +3,7 @@
 ### Integrantes:
 |Nombre|Rol|
 |:--|:--|
-|Fernanda Avendaño|| 201873057-2
+|Fernanda Avendaño|201873057-2|
 |Matías Contreras|201904613-6|
 |Vicente Lineros|202073610-3|
 ### Ejecución:
