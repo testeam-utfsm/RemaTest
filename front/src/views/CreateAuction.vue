@@ -33,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <router-link to="/about" class="btn btn-primary">Ver subastas</router-link>
+                    <router-link to="/auctions" class="btn btn-primary">Ver subastas</router-link>
                 </div>
             </div>
         </div>

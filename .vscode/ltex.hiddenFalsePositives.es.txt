@@ -1,0 +1,5 @@
+{"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\Q\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q\nPara crear las tablas nos ubicamos en la raíz del proyecto y utilizamos el siguiente comando:\\E$"}
+{"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\Q\\E(?:Dummy|Ina|Jimmy-)[0-9]+$"}
+{"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QLevantamiento del frontend\\E$"}
+{"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QUbicándonos en la ruta Testeam/front, utilizamos el siguiente comando \\E(?:Dummy|Ina|Jimmy-)[0-9]+$"}
+{"rule":"MORFOLOGIK_RULE_ES","sentence":"^\\QUbicándonos en la raíz del proyecto utilizamos el siguiente comando \\E(?:Dummy|Ina|Jimmy-)[0-9]+$"}

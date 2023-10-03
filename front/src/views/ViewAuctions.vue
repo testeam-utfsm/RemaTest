@@ -73,7 +73,6 @@ export default {
         currentDate = currentDate.replace('T',' ');
         currentDate = currentDate.split('.')[0];
           
-
         let result = await api.post('http://localhost:3000/api/bids',
         {
             auction_id: auction.id,

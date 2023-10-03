@@ -31,8 +31,6 @@ describe('auctions', function () {
 
     const response = await axios.get("http://localhost:3000/api/auctions");
 
-    // console.log(response[0])
-
     expect(response.data[0]).toEqual({
       id: 1,
       name: 'jest',
