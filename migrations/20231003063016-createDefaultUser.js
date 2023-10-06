@@ -15,20 +15,11 @@ exports.setup = function (options, seedLink) {
 };
 
 exports.up = function (db) {
-  return db.createTable('users', {
-    id: {
-      type: 'int',
-      primaryKey: true,
-      autoIncrement: true
-    },
-    email: 'string',
-    administrator: 'int',
-    password: 'string'
-  })
+  return db.runSql('INSERT INTO users (email, administrator, password) VALUES ("admin@example.com", 1, "admin")')
 };
 
 exports.down = function (db) {
-  return db.dropTable('users')
+  return null;
 };
 
 exports._meta = {
