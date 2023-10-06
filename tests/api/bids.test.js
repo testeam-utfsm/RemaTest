@@ -62,7 +62,7 @@ describe('Bids', function () {
 
     await db.end();
   });
-  test.skip('create bid', async function () {
+  test('create bid', async function () {
     const db = await conn()
 
     await db.query('INSERT INTO auctions (name, base_price, current_price, start_date, end_date) VALUES ("jest", 1000, 1000, "2020-01-01 12:12:12", "2020-01-01 12:12:12")');
