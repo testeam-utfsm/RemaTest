@@ -8,6 +8,16 @@
 |Vicente Lineros|202073610-3|
 ### Ejecución:
 
+#### Instalación de dependencias
+
+1. Ubicándonos en la raíz del proyecto utilizamos el siguiente comando
+
+        npm install
+
+2. Ubicándonos en la ruta front, utilizamos el siguiente comando
+    
+        npm install
+
 #### Levantamiento de la BBDD
 
 1. Se debe ejecutar el siguiente comando con Docker. Previamente no debemos tener ningún servidor MySql iniciado.
@@ -26,6 +36,6 @@
 
 #### Levantamiento del frontend
 
-1. Ubicándonos en la ruta Testeam/front, utilizamos el siguiente comando
+1. Ubicándonos en la ruta front, utilizamos el siguiente comando
     
          npm run serve
