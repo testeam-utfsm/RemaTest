@@ -29,3 +29,4 @@
 1. Ubicándonos en la ruta Testeam/front, utilizamos el siguiente comando
     
          npm run serve
+
