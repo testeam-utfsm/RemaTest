@@ -2,6 +2,7 @@ version: '3.9'
 services:
   db:
     image: mysql:8.1
+    container_name: rematest-db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -10,6 +11,23 @@ services:
       - db:/var/lib/mysql
     ports:
       - 3306:3306
+
+  front:
+    build:
+      context: ./front
+    ports:
+      - 8080:8080
+    depends_on:
+      - back
+
+  back:
+    build:
+      context: .
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
 
 volumes:
   db:

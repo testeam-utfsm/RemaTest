@@ -6,7 +6,7 @@ var app = express();
 
 const mysql = require('mysql2');
 const db = mysql.createConnection({
-  host: '127.0.0.1',
+  host: 'rematest-db',
   user: 'root',
   password: 'root',
   database: 'testing',
