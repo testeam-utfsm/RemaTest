@@ -6,6 +6,9 @@
           <div class="btn-container">
             <a href="#" class="btn btn-warning btn-sm" @click="auction.showEditBidForm = true">Editar</a>
           </div>
+          <button type="button" class="btn btn-danger btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-backdrop="static">
+            Eliminar
+          </button>
         </div>
       </h3>
     <div class="card-body">
@@ -76,6 +79,25 @@
           </div>
         </div>
       </div>
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>¿Estás seguro de que deseas eliminar esta subasta?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger" @click="deleteAuction(auction)">Eliminar</button>
+            </div>
+          </div>
+        </div>
+    </div>
 </div>
 </template>
 <script>
@@ -94,6 +116,7 @@ export default {
   mounted() {   
     this.getAuctions(); 
   },
+  
   methods:{
     async getAuctions(){
       try{
@@ -130,6 +153,9 @@ export default {
     editAuction(){
       
     }
+    deleteAuction() {
+    },
+    
   }
   
 };
