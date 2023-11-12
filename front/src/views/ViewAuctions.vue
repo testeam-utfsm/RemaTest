@@ -1,42 +1,30 @@
 <template>
-  <div class="auction-card" v-for="auction in auctions" :key="auction.id">
-    <h3 class="card-header text-white">Producto: {{auction.name}} </h3>
-    <div class="card-body">
-      <h5 class="card-title text-white">Precio base: {{'$'+ auction.base_price}} </h5>
-      <h5 class="card-title text-white">Precio actual: {{'$'+ auction.current_price}} </h5>
-      <p class="card-text text-white"></p>
-      <p class="card-text text-white">Fecha inicio: {{(auction.start_date.replace('T',' ')).replace('.000Z','')}}</p>
-      <p class="card-text text-white">Fecha término: {{(auction.end_date.replace('T',' ')).replace('.000Z','')}}</p>
-      <a 
-        href="#" 
-        class="btn btn-primary" 
-        @click="auction.showBidForm = true"
-      >Pujar</a>
+  <div>
+    <div class="search-bar">
+      <input
+        type="text"
+        class="form-control"
+        v-model="searchQuery"
+        @input="filterAuctions"
+        placeholder="Buscar productos"
+      />
     </div>
-
-    <div v-if="auction.showBidForm" class="bid-form">
-      <div class="form-body">
-          <div class="row">
-              <div class="form-holder">
-                  <div class="form-content">
-                      <div class="form-items">
-                          <h3>Pujar</h3>
-                          <div class="requires-validation" novalidate>
-                              <div class="col-md-12">
-                                <input class="form-control" type="number" name="amount" min="auction.current_price" v-model="auction.new_price" placeholder="Monto a pujar" required>
-                              </div>
-                              <div class="form-button mt-3" style="margin-top: 20px;">
-                                  <button id="submit" @click="handleSubmit(auction)" type="submit" class="btn btn-primary">Enviar</button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+    <div class="auction-card" v-for="auction in filteredAuctions" :key="auction.id">
+      <h3 class="card-header text-white d-flex justify-content-between align-items-center">
+        <span>Producto: {{auction.name}}</span>
+      </h3>
+      <div class="card-body">
+        <h5 class="card-title text-white">Precio base: {{'$'+ auction.base_price}}</h5>
+        <h5 class="card-title text-white">Precio actual: {{'$'+ auction.current_price}}</h5>
+        <p class="card-text text-white"></p>
+        <p class="card-text text-white">Fecha inicio: {{(auction.start_date.replace('T',' ')).replace('.000Z','')}}</p>
+        <p class="card-text text-white">Fecha término: {{(auction.end_date.replace('T',' ')).replace('.000Z','')}}</p>
+        <a href="#" class="btn btn-info btn-sm" @click="auction.showBidForm = true">Pujar</a>
       </div>
     </div>
-</div>
+  </div>
 </template>
+
 <script>
 import 'bootstrap'; 
 import 'bootstrap-datepicker';
@@ -46,51 +34,49 @@ export default {
   data() {
     return {
       auctions: [],
-      showingBidForm: false,
+      searchQuery: "",
+      filteredAuctions: [],
     };
   },
-  
   mounted() {   
     this.getAuctions(); 
   },
-  methods:{
-    async getAuctions(){
-      try{
-        const response = await axios.get('http://localhost:3000/api/auctions')
+  methods: {
+    async getAuctions() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/auctions');
         this.auctions = response.data.map(auction => ({
           ...auction,
           new_price: auction.current_price,
         }));
-        console.log(this.auctions);
-      }catch (error){
-        console.error('Error',error)
+        this.filteredAuctions = [...this.auctions];
+      } catch (error) {
+        console.error('Error', error);
       }
     },
-    async handleSubmit(auction){
-        //window.alert('aqui');
-        let currentDate = new Date().toISOString();
-
-        currentDate = currentDate.replace('T',' ');
-        currentDate = currentDate.split('.')[0];
-          
-        let result = await api.post('http://localhost:3000/api/bids',
-        {
-            auction_id: auction.id,
-            user_id: 1,
-            amount: auction.new_price,
-            date: currentDate
-        });
-        console.warn(result);
-        // auction.formData.amount = '';
-        auction.showBidForm = false;
-
-        this.getAuctions();
-    }
-
+    async handleSubmit(auction) {
+      let currentDate = new Date().toISOString();
+      currentDate = currentDate.replace('T', ' ');
+      currentDate = currentDate.split('.')[0];
+      let result = await api.post('http://localhost:3000/api/bids', {
+        auction_id: auction.id,
+        user_id: 1,
+        amount: auction.new_price,
+        date: currentDate
+      });
+      console.warn(result);
+      auction.showBidForm = false;
+      this.getAuctions();
+    },
+    filterAuctions() {
+      this.filteredAuctions = this.auctions.filter(auction => {
+        return auction.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+      });
+    },
   }
-  
 };
 </script>
+
 <style>
 .h2 {
     color: #fff;
@@ -109,5 +95,9 @@ export default {
   padding: 10px;
   border: 1px solid #ccc; 
   border-radius: 5px; }
-
+ 
+.search-bar {
+    padding: 30px;
+    margin-bottom: 10px;
+  }
 </style>
