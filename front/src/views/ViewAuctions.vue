@@ -1,17 +1,20 @@
 <template>
   <div class="auction-card" v-for="auction in auctions" :key="auction.id">
-    <h3 class="card-header text-white">Producto: {{auction.name}} </h3>
+    <h3 class="card-header text-white d-flex justify-content-between align-items-center">
+        <span>Producto: {{auction.name}}</span>
+        <div>
+          <div class="btn-container">
+            <a href="#" class="btn btn-warning btn-sm" @click="auction.showEditBidForm = true">Editar</a>
+          </div>
+        </div>
+      </h3>
     <div class="card-body">
       <h5 class="card-title text-white">Precio base: {{'$'+ auction.base_price}} </h5>
       <h5 class="card-title text-white">Precio actual: {{'$'+ auction.current_price}} </h5>
       <p class="card-text text-white"></p>
       <p class="card-text text-white">Fecha inicio: {{(auction.start_date.replace('T',' ')).replace('.000Z','')}}</p>
       <p class="card-text text-white">Fecha término: {{(auction.end_date.replace('T',' ')).replace('.000Z','')}}</p>
-      <a 
-        href="#" 
-        class="btn btn-primary" 
-        @click="auction.showBidForm = true"
-      >Pujar</a>
+      <a href="#" class="btn btn-info btn-sm" @click="auction.showBidForm = true">Pujar</a>
     </div>
 
     <div v-if="auction.showBidForm" class="bid-form">
@@ -35,6 +38,44 @@
           </div>
       </div>
     </div>
+    <div v-if="auction.showEditBidForm" class="bid-form">
+        <div class="form-body">
+          <div class="row">
+            <div class="form-holder">
+              <div class="form-content">
+                <div class="form-items">
+                  <h3>Editar subasta</h3>
+                  <div class="requires-validation" novalidate>
+                    <div class="col-md-12">
+                      <input class="form-control" type="text" name="product" placeholder="Nombre producto" required>
+                    </div>
+                    <div class="col-md-12">
+                      <input class= "form-control" type="text" name="base_price" placeholder="Precio Base" required>
+                    </div>
+                    <div class="col-md-12" style="margin-top: 20px;">
+                      <input
+                        type="datetime-local"
+                        id="meeting-time"
+                        name="meeting-time"
+                      />
+                    </div>
+                    <div class="col-md-12" style="margin-top: 20px;">
+                      <input
+                        type="datetime-local"
+                        id="meeting-time"
+                        name="meeting-time"
+                      />
+                    </div>
+                    <div class="form-button mt-3" style="margin-top: 20px;">
+                      <button id="submit" @click="editAuction(auction)" type="submit" class="btn btn-secondary btn-sm">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
 </template>
 <script>
@@ -85,8 +126,10 @@ export default {
         auction.showBidForm = false;
 
         this.getAuctions();
+    },
+    editAuction(){
+      
     }
-
   }
   
 };
