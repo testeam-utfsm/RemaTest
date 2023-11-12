@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "jest",
+    "migrate": "db-migrate up",
     "watch": "nodemon ./bin/www"
   },
   "dependencies": {
