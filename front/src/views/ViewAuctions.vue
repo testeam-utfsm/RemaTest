@@ -3,6 +3,9 @@
     <h3 class="card-header text-white d-flex justify-content-between align-items-center">
         <span>Producto: {{auction.name}}</span>
         <div>
+          <div class="btn-container">
+            <a href="#" class="btn btn-warning btn-sm" @click="auction.showEditBidForm = true">Editar</a>
+          </div>
           <button type="button" class="btn btn-danger btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-backdrop="static">
             Eliminar
           </button>
@@ -38,6 +41,44 @@
           </div>
       </div>
     </div>
+    <div v-if="auction.showEditBidForm" class="bid-form">
+        <div class="form-body">
+          <div class="row">
+            <div class="form-holder">
+              <div class="form-content">
+                <div class="form-items">
+                  <h3>Editar subasta</h3>
+                  <div class="requires-validation" novalidate>
+                    <div class="col-md-12">
+                      <input class="form-control" type="text" name="product" placeholder="Nombre producto" required>
+                    </div>
+                    <div class="col-md-12">
+                      <input class= "form-control" type="text" name="base_price" placeholder="Precio Base" required>
+                    </div>
+                    <div class="col-md-12" style="margin-top: 20px;">
+                      <input
+                        type="datetime-local"
+                        id="meeting-time"
+                        name="meeting-time"
+                      />
+                    </div>
+                    <div class="col-md-12" style="margin-top: 20px;">
+                      <input
+                        type="datetime-local"
+                        id="meeting-time"
+                        name="meeting-time"
+                      />
+                    </div>
+                    <div class="form-button mt-3" style="margin-top: 20px;">
+                      <button id="submit" @click="editAuction(auction)" type="submit" class="btn btn-secondary btn-sm">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -109,10 +150,12 @@ export default {
 
         this.getAuctions();
     },
+    editAuction(){
+      
+    }
     deleteAuction() {
     },
     
-
   }
   
 };
