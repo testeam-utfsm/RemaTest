@@ -12,6 +12,14 @@
     <div class="auction-card" v-for="auction in filteredAuctions" :key="auction.id">
       <h3 class="card-header text-white d-flex justify-content-between align-items-center">
         <span>Producto: {{auction.name}}</span>
+        <div>
+          <div class="btn-container">
+            <a href="#" class="btn btn-warning btn-sm" @click="auction.showEditBidForm = true">Editar</a>
+          </div>
+          <button type="button" class="btn btn-danger btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+            Eliminar
+          </button>
+        </div>
       </h3>
       <div class="card-body">
         <h5 class="card-title text-white">Precio base: {{'$'+ auction.base_price}}</h5>
@@ -20,6 +28,85 @@
         <p class="card-text text-white">Fecha inicio: {{(auction.start_date.replace('T',' ')).replace('.000Z','')}}</p>
         <p class="card-text text-white">Fecha término: {{(auction.end_date.replace('T',' ')).replace('.000Z','')}}</p>
         <a href="#" class="btn btn-info btn-sm" @click="auction.showBidForm = true">Pujar</a>
+      </div>
+
+      <div v-if="auction.showBidForm" class="bid-form">
+        <div class="form-body">
+          <div class="row">
+            <div class="form-holder">
+              <div class="form-content">
+                <div class="form-items">
+                  <h3>Pujar</h3>
+                  <div class="requires-validation" novalidate>
+                    <div class="col-md-12">
+                      <input class="form-control" type="number" name="amount" :min="auction.current_price" v-model="auction.new_price" placeholder="Monto a pujar" required>
+                    </div>
+                    <div class="form-button mt-3" style="margin-top: 20px;">
+                      <button id="submit" @click="handleSubmit(auction)" type="submit" class="btn btn-primary btn-sm">Enviar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="auction.showEditBidForm" class="bid-form">
+        <div class="form-body">
+          <div class="row">
+            <div class="form-holder">
+              <div class="form-content">
+                <div class="form-items">
+                  <h3>Editar subasta</h3>
+                  <div class="requires-validation" novalidate>
+                    <div class="col-md-12">
+                      <input class="form-control" type="text" name="product" placeholder="Nombre producto" required>
+                    </div>
+                    <div class="col-md-12">
+                      <input class= "form-control" type="text" name="base_price" placeholder="Precio Base" required>
+                    </div>
+                    <div class="col-md-12" style="margin-top: 20px;">
+                      <input
+                        type="datetime-local"
+                        id="meeting-time"
+                        name="meeting-time"
+                      />
+                    </div>
+                    <div class="col-md-12" style="margin-top: 20px;">
+                      <input
+                        type="datetime-local"
+                        id="meeting-time"
+                        name="meeting-time"
+                      />
+                    </div>
+                    <div class="form-button mt-3" style="margin-top: 20px;">
+                      <button id="submit" @click="handleSubmit" type="submit" class="btn btn-secondary btn-sm">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>¿Estás seguro de que deseas eliminar esta subasta?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger" @click="eliminarAuction(auction)">Eliminar</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -72,6 +159,8 @@ export default {
       this.filteredAuctions = this.auctions.filter(auction => {
         return auction.name.toLowerCase().includes(this.searchQuery.toLowerCase());
       });
+    },
+    eliminarAuction() {
     },
   }
 };
