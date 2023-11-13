@@ -3,7 +3,7 @@ const axios = require('axios');
 
 let conn = async function () {
   return mysql.createConnection({
-    host: '0.0.0.0',
+    host: 'rematest-db',
     user: 'root',
     password: 'root',
     database: 'testing',
