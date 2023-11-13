@@ -32,6 +32,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
+networks:
+  jenkins:
+    name: jenkins_default
+    external: true
 volumes:
   db:
