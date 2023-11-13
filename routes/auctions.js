@@ -32,19 +32,98 @@ router.get('/', cors(), function (req, res, next) {
 
 });
 
-router.get('/:id', cors(), function (req, res, next) {
+router.get('/search', cors(), function (req, res, next) {
   try {
+    db.connect(function (err) {
+      if (err) throw err;
+    });
+
+    db.query('SELECT * FROM auctions WHERE name LIKE ?', ['%' + req.query.name + '%'], function (error, results, fields) {
+      if (error) throw error;
+      res.send(results);
+    });
+  } catch (err) {
+    // 
+  }
+});
+
+router.delete('/:id', cors(), function (req, res, next) {
+  try {
+    db.connect(function (err) {
+      if (err) throw err;
+    });
+
+    db.query('SELECT * FROM auctions WHERE id = ?', [req.params.id], function (error, results, fields) {
+      if (error) throw error;
+      let now = new Date();
+      let end_date = new Date(results[0].end_date);
+      let diff = now - end_date;
+      let minutes = Math.floor(diff / 1000 / 60);
+      if (minutes > 60) {
+        r = { error: 'Auction is older than 1 hour' }
+        res.send(r);
+      } else {
+
+
+        db.query('SELECT * FROM bids WHERE auction_id = ?', [req.params.id], function (error, results, fields) {
+          if (error) throw error;
+          if (results.length > 0) {
+            r = { error: 'Auction has bids' };
+            res.send(r);
+          } else {
+
+
+            db.query('DELETE FROM auctions WHERE id = ?', [req.params.id], function (error, results, fields) {
+              if (error) throw error;
+              res.send(results);
+            });
+          }
+        });
+      }
+    });
+  } catch (err) {
+    // 
+  }
+});
+
+router.put('/:id', cors(), function (req, res, next) {
+  try {
+    db.connect(function (err) {
+      if (err) throw err;
+    });
 
     db.connect(function (err) {
       if (err) throw err;
     });
 
-    var query = db.query('SELECT *  FROM ( SELECT auctions.*, bids.amount, bids.id AS bids_id FROM auctions INNER JOIN bids ON auctions.id = bids.auction_id WHERE auctions.id = ? ) AS test ORDER BY amount DESC LIMIT 1;', [req.params.id], function (error, results, fields) {
+    db.query('SELECT * FROM auctions WHERE id = ?', [req.params.id], function (error, results, fields) {
       if (error) throw error;
-      res.send(results[0]);
+      let now = new Date();
+      let end_date = new Date(results[0].end_date);
+      let diff = now - end_date;
+      let minutes = Math.floor(diff / 1000 / 60);
+      if (minutes > 60) {
+        r = { error: 'Auction is older than 1 hour' }
+        res.send(r);
+      } else {
+        db.query('SELECT * FROM bids WHERE auction_id = ?', [req.params.id], function (error, results, fields) {
+          if (error) throw error;
+          if (results.length > 0) {
+            r = { error: 'Auction has bids' };
+            res.send(r);
+          } else {
+
+
+            db.query('UPDATE auctions SET name = ?, base_price = ? WHERE id = ?', [req.body.name, req.body.base_price, req.params.id], function (error, results, fields) {
+              if (error) throw error;
+              res.send(results);
+            });
+          }
+        });
+      }
     });
   } catch (err) {
-    //
+    // 
   }
 });
 
@@ -62,6 +141,22 @@ router.post('/', cors(), function (req, res, next) {
       if (error) throw error;
 
       res.send(results);
+    });
+  } catch (err) {
+    //
+  }
+});
+
+router.get('/:id', cors(), function (req, res, next) {
+  try {
+
+    db.connect(function (err) {
+      if (err) throw err;
+    });
+
+    db.query('SELECT *  FROM ( SELECT auctions.*, bids.amount, bids.id AS bids_id FROM auctions INNER JOIN bids ON auctions.id = bids.auction_id WHERE auctions.id = ? ) AS test ORDER BY amount DESC LIMIT 1;', [req.params.id], function (error, results, fields) {
+      if (error) throw error;
+      res.send(results[0]);
     });
   } catch (err) {
     //

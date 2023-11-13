@@ -19,16 +19,19 @@ services:
   front:
     restart: unless-stopped
     build:
-      context: ./front
+      dockerfile: ./provision/dev/Dockerfile    
     ports:
       - 80:8080
+    volumes:
+      - ./front:/app
 
   back:
-    build:
-      context: .
+    build: ./provision/dev
     restart: unless-stopped
     ports:
       - 3000:3000
+    volumes:
+      - .:/app
     depends_on:
       db:
         condition: service_healthy
