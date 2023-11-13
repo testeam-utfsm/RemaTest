@@ -3,7 +3,7 @@ services:
   db:
     image: mysql:8.1
     container_name: rematest-db
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: testing
@@ -17,6 +17,7 @@ services:
       retries: 10
 
   front:
+    restart: unless-stopped
     build:
       dockerfile: ./provision/dev/Dockerfile    
     ports:
@@ -26,7 +27,7 @@ services:
 
   back:
     build: ./provision/dev
-    restart: always
+    restart: unless-stopped
     ports:
       - 3000:3000
     volumes:
