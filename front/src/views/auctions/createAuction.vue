@@ -33,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <router-link to="/auctions" class="btn btn-primary">Ver subastas</router-link>
+                    <router-link to="/" class="btn btn-primary">Ver subastas</router-link>
                 </div>
             </div>
         </div>
@@ -45,6 +45,8 @@ import 'bootstrap';
 import 'bootstrap-datepicker';
 import 'jquery';
 const axios = require('axios');
+
+import moment from 'moment';
 
 
 export default {
@@ -62,12 +64,14 @@ export default {
   },
   methods:{
     handleSubmit(){
-        // window.alert(this.formData.product, this.formData.start_date.replace("T"," ") + ':00')
+        let start_date = moment(this.formData.start_date).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
+        let end_date = moment(this.formData.end_date).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
+
         axios.post("http://localhost:3000/api/auctions?", {
             name: this.formData.product,
             base_price: this.formData.base_price,
-            start_date: this.formData.start_date.replace("T"," ") + ':00',
-            end_date: this.formData.end_date.replace("T"," ") + ':00',
+            start_date: start_date,
+            end_date: end_date,
         })
         .then(res => {
             console.log(res);
