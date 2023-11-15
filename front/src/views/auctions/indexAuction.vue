@@ -9,6 +9,11 @@
         placeholder="Buscar productos"
       />
     </div>
+    <div>
+      <a href="/auctions/create" class="btn btn-primary">
+        Nueva subasta
+      </a>
+    </div> 
     <div class="auction-card" v-for="auction in filteredAuctions" :key="auction.id">
       <h3 class="card-header text-white d-flex justify-content-between align-items-center">
         <span>Producto: {{auction.name}}</span>
@@ -16,7 +21,7 @@
           <div class="btn-container">
             <a href="#" class="btn btn-warning btn-sm" @click="auction.showEditBidForm = true">Editar</a>
           </div>
-          <button type="button" class="btn btn-danger btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+          <button type="button" @click="selectedAuction = auction" class="btn btn-danger btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
             Eliminar
           </button>
         </div>
@@ -26,7 +31,9 @@
         <h5 class="card-title text-white">Precio actual: {{'$'+ auction.current_price}}</h5>
         <p class="card-text text-white"></p>
         <p class="card-text text-white">Fecha inicio: {{(auction.start_date.replace('T',' ')).replace('.000Z','')}}</p>
+        <p class="card-text text-white">Fecha inicio: {{ moment(auction.start_date) }}</p>
         <p class="card-text text-white">Fecha término: {{(auction.end_date.replace('T',' ')).replace('.000Z','')}}</p>
+        <p class="card-text text-white">Fecha inicio: {{ moment(auction.end_date)}}</p>
         <a href="#" class="btn btn-info btn-sm" @click="auction.showBidForm = true">Pujar</a>
       </div>
 
@@ -39,7 +46,10 @@
                   <h3>Pujar</h3>
                   <div class="requires-validation" novalidate>
                     <div class="col-md-12">
-                      <input class="form-control" type="number" name="amount" :min="auction.current_price" v-model="auction.new_price" placeholder="Monto a pujar" required>
+                      <input class="form-control" type="number" name="amount" 
+                        :min="auction.current_price" v-model="auction.new_price" 
+                        placeholder="Monto a pujar" required
+                      >
                     </div>
                     <div class="form-button mt-3" style="margin-top: 20px;">
                       <button id="submit" @click="handleSubmit(auction)" type="submit" class="btn btn-primary btn-sm">Enviar</button>
@@ -100,10 +110,11 @@
             </div>
             <div class="modal-body">
               <p>¿Estás seguro de que deseas eliminar esta subasta?</p>
+              {{  auction.id }}
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-danger" @click="eliminarAuction(auction)">Eliminar</button>
+              <button type="button" class="btn btn-danger" @click="eliminarAuction(auction.id)">Eliminar</button>
             </div>
           </div>
         </div>
@@ -116,6 +127,10 @@
 import 'bootstrap'; 
 import 'bootstrap-datepicker';
 import api from '@/api/index.js';
+import moment from 'moment'; 
+
+
+import auctionApi from '@/api/auction.js';
 const axios = require('axios');
 export default {
   data() {
@@ -123,12 +138,16 @@ export default {
       auctions: [],
       searchQuery: "",
       filteredAuctions: [],
+      selectedAuction: null,
     };
   },
   mounted() {   
     this.getAuctions(); 
   },
   methods: {
+    moment(val) {
+      return moment(val)
+    },
     async getAuctions() {
       try {
         const response = await axios.get('http://localhost:3000/api/auctions');
@@ -151,6 +170,8 @@ export default {
         amount: auction.new_price,
         date: currentDate
       });
+
+      moment(result.data.date).subtract(3, 'hours');
       console.warn(result);
       auction.showBidForm = false;
       this.getAuctions();
@@ -160,7 +181,17 @@ export default {
         return auction.name.toLowerCase().includes(this.searchQuery.toLowerCase());
       });
     },
-    eliminarAuction() {
+    async eliminarAuction() {
+      const id = this.selectedAuction.id;
+      let data = (await auctionApi.delete(id)).data;
+
+      if (data.error != null){
+        alert(data.error)
+      } else {
+        alert("OK")
+      }
+
+      // alert(response.data)
     },
   }
 };
