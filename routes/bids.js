@@ -48,7 +48,7 @@ router.get('/:id', cors(), async function (req, res, next) {
     try {
         const db = await conn()
         console.log(req.params.id)
-        let r = await db.query('SELECT * FROM bids WHERE id = ?', [1]);
+        let r = await db.query('SELECT * FROM bids WHERE id = ?', req.params.id);
 
         if (r[0].length != undefined) {
             res.send(r[0][0]);
