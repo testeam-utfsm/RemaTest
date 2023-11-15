@@ -1,24 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
-import CreateAuction from '../views/CreateAuction.vue'
-import ViewAuctions from '../views/ViewAuctions.vue'
+import CreateAuction from '../views/auctions/createAuction.vue'
+import ViewAuctions from '../views/auctions/indexAuction.vue'
 import ViewHome from '../views/homePage.vue'
 import ViewRegister from '../views/registerPage.vue'
 
 
 const routes = [
   {
-    path: '/new_auction',
+    path: '/auctions/create',
     name: 'home',
     component: CreateAuction
   },
   {
-    path: '/auctions',
+    path: '/',
     name: 'about',
     component: ViewAuctions
   },
   {
-    path: '/home',
+    path: '/login',
     name: 'homePage',
     component: ViewHome
   },
