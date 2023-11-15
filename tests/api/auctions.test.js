@@ -3,13 +3,15 @@ const axios = require('axios');
 
 let conn = async function () {
   return mysql.createConnection({
-    host: '0.0.0.0',
+    host: 'rematest-db',
     user: 'root',
     password: 'root',
     database: 'testing',
     port: 3306
   })
 };
+
+let host = "http://testingcd-back-1"
 
 describe('auctions', function () {
   beforeEach(async () => {
@@ -25,11 +27,12 @@ describe('auctions', function () {
     await db.end();
   });
   test('get all auctions', async function () {
+
     const db = await conn()
 
     await db.query('INSERT INTO auctions (name, base_price, current_price, start_date, end_date) VALUES ("jest", 1000, 1000, "2020-01-01 15:12:12", "2020-01-01 15:12:12")');
 
-    const response = await axios.get("http://localhost:3000/api/auctions");
+    const response = await axios.get(host + ":3000/api/auctions");
 
     expect(response.data[0]).toEqual({
       id: 1,
@@ -48,7 +51,7 @@ describe('auctions', function () {
     await db.query('INSERT INTO auctions (name, base_price, current_price, start_date, end_date) VALUES ("jest", 1000, 1000, "2020-01-01 15:12:12", "2020-01-01 15:12:12")');
     await db.query('INSERT INTO users (email, administrator, password) VALUES ("jest@gmail.com", "1","asdasd")');
     await db.query('INSERT INTO bids (amount, user_id, auction_id) VALUES (99999999, 1, 1)');
-    const response = await axios.get("http://localhost:3000/api/auctions/1");
+    const response = await axios.get(host + ":3000/api/auctions/1");
 
     expect(response.data).toEqual({
       id: 1,
@@ -65,7 +68,7 @@ describe('auctions', function () {
   });
   test('post auction', async function () {
     const db = await conn()
-    const response = await axios.post("http://localhost:3000/api/auctions", {
+    const response = await axios.post(host + ":3000/api/auctions", {
       name: 'jejest',
       base_price: 200,
       start_date: '2020-01-01 12:12:12',
@@ -85,7 +88,7 @@ describe('auctions', function () {
     const db = await conn()
     let now = new Date().toISOString().slice(0, 19).replace('T', ' ');;
     await db.query(`INSERT INTO auctions (name, base_price, current_price, start_date, end_date) VALUES ("jest", 1000, 1000, "${now}", "${now}")`);
-    await axios.delete("http://localhost:3000/api/auctions/1");
+    await axios.delete(host + ":3000/api/auctions/1");
     const [[result], _] = await db.query('SELECT * FROM auctions WHERE id = 1;');
     expect(result).toEqual(undefined);
     await db.end();
@@ -94,7 +97,7 @@ describe('auctions', function () {
   test('search for existing item', async function () {
     const db = await conn()
     await db.query(`INSERT INTO auctions (name, base_price, current_price, start_date, end_date) VALUES ("jest", 1000, 1000, "2020-01-01 15:12:12", "2020-01-01 15:12:12")`);
-    const response = await axios.get("http://localhost:3000/api/auctions/search?name=jest");
+    const response = await axios.get(host + ":3000/api/auctions/search?name=jest");
     expect(response.data).toEqual([{
       id: 1,
       name: 'jest',
@@ -109,7 +112,7 @@ describe('auctions', function () {
   test('search for non existing item', async function () {
     const db = await conn()
     await db.query(`INSERT INTO auctions (name, base_price, current_price, start_date, end_date) VALUES ("jest", 1000, 1000, "2020-01-01 15:12:12", "2020-01-01 15:12:12")`);
-    const response = await axios.get("http://localhost:3000/api/auctions/search?name=nonexisting");
+    const response = await axios.get(host + ":3000/api/auctions/search?name=nonexisting");
     expect(response.data).toEqual([]);
     await db.end();
   })
@@ -122,7 +125,7 @@ describe('auctions', function () {
     await db.query('INSERT INTO users (email, administrator, password) VALUES ("jest@gmail.com", "1","asdasd")');
     await db.query('INSERT INTO bids (amount, user_id, auction_id) VALUES (99999999, 1, 1)');
 
-    let response = await axios.delete("http://localhost:3000/api/auctions/1");
+    let response = await axios.delete(host + ":3000/api/auctions/1");
 
     const [[result], _] = await db.query('SELECT * FROM auctions WHERE id = 1;');
     expect(result.id).toEqual(1);

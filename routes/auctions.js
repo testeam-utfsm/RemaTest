@@ -71,8 +71,6 @@ router.delete('/:id', cors(), function (req, res, next) {
             r = { error: 'Auction has bids' };
             res.send(r);
           } else {
-
-
             db.query('DELETE FROM auctions WHERE id = ?', [req.params.id], function (error, results, fields) {
               if (error) throw error;
               res.send(results);

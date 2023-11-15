@@ -3,67 +3,89 @@ var router = express.Router();
 
 var cors = require('cors')
 
-const mysql = require('mysql2');
-const db = mysql.createConnection({
-    host: 'rematest-db',
-    user: 'root',
-    password: 'root',
-    database: 'testing',
-    port: 3306
-});
+const mysql = require('mysql2/promise');
+// const db = mysql.createConnection({
+//     host: 'rematest-db',
+//     user: 'root',
+//     password: 'root',
+//     database: 'testing',
+//     port: 3306
+// });
 
-router.get('/', cors(), function (req, res, next) {
+let conn = async function () {
+    return mysql.createConnection({
+      host: 'rematest-db',
+      user: 'root',
+      password: 'root',
+      database: 'testing',
+      port: 3306
+    })
+  };
+
+
+  
+
+router.get('/', cors(), async function (req, res, next) {
     try {
-        db.connect(function (err) {
-            if (err) throw err;
-        });
+        const db = await conn()
+        
+        let r = await db.query('SELECT * FROM bids');
 
-        db.query('SELECT * FROM bids', function (error, results, fields) {
-            if (error) throw error;
+        if (r.error) {
+            throw new Error(r.error);
+        }
 
-            res.send(results);
-        });
+        res.send(r.results);
 
     } catch (err) {
+        console.error(err.message);
         res.sendStatus(500);
     }
 
 });
 
-router.get('/:id', cors(), function (req, res, next) {
+router.get('/:id', cors(), async function (req, res, next) {
     try {
-        db.connect(function (err) {
-            if (err) throw err;
-        });
+        const db = await conn()
+        console.log(req.params.id)
+        let r = await db.query('SELECT * FROM bids WHERE id = ?', req.params.id);
 
-        db.query('SELECT * FROM bids WHERE bids.id = ?', [req.params.id], function (error, results, fields) {
-            if (error) throw error;
+        if (r[0].length != undefined) {
+            res.send(r[0][0]);
+        } else {
+            res.sendStatus(404);
+            // throw(new Error(r.error))
+        }
 
-            res.send(results[0]);
-        });
     } catch (err) {
+        console.error(err.message);
         res.sendStatus(500);
     }
 });
 
-router.post('/', cors(), function (req, res, next) {
+router.post('/', cors(), async function (req, res, next) {
     try {
-        db.connect(function (err) {
-            if (err) throw err;
-        });
+        const db = await conn()
 
-        db.query('INSERT INTO bids (auction_id, user_id, date, amount) VALUES (?, ?, ?, ?)', [req.body.auction_id, req.body.user_id, req.body.date, req.body.amount], function (error, results, fields) {
-            if (error) throw error;
-        });
+        let r = await db.query('INSERT INTO bids (auction_id, user_id, date, amount) VALUES (?, ?, ?, ?)', [
+            req.body.auction_id, req.body.user_id, req.body.date, req.body.amount
+        ]);
 
-        db.query('UPDATE auctions SET current_price = ? WHERE id = ?', [req.body.amount, req.body.auction_id], function (error, results, fields) {
-            if (error) throw error;
+        if (r.error) {
+            throw new Error(r.error);
+        }
 
-            res.send(results);
+        r = await db.query('UPDATE auctions SET current_price = ? WHERE id = ?', [
+            req.body.amount, req.body.auction_id
+        ]);
 
-        });
+        if (r.error) {
+            throw new Error(r.error);
+        }
 
+        res.sendStatus(200);
     } catch (err) {
+        console.error(err.message);
         res.sendStatus(500);
     }
 });
