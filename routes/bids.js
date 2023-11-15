@@ -14,7 +14,7 @@ const mysql = require('mysql2/promise');
 
 let conn = async function () {
     return mysql.createConnection({
-      host: 'testingcd-back-1',
+      host: 'rematest-db',
       user: 'root',
       password: 'root',
       database: 'testing',
