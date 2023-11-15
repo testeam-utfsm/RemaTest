@@ -11,6 +11,8 @@ let conn = async function () {
   })
 };
 
+let host = "http://testingcd-back-1"
+
 describe('Bids', function () {
   beforeEach(async () => {
     const db = await conn()
@@ -39,7 +41,7 @@ describe('Bids', function () {
     if (r.error) {
       throw new Error(r.error);
     }
-    const response = await axios.get("http://localhost:3000/api/bids");
+    const response = await axios.get(host + ":3000/api/bids");
 
     // expect(response.data).toEqual([{
     //   id: 1,
@@ -75,7 +77,7 @@ describe('Bids', function () {
       console.log(error)
     }
 
-    const response = await axios.get("http://localhost:3000/api/bids/1");
+    const response = await axios.get(host + ":3000/api/bids/1");
 
     expect(response.data).toEqual({  
       id: 1,
@@ -98,7 +100,7 @@ describe('Bids', function () {
     if (r.error) {
       throw new Error(r.error);
     }
-    const response = await axios.post("http://localhost:3000/api/bids", {
+    const response = await axios.post(host + ":3000/api/bids", {
       amount: 99999999,
       user_id: 1,
       auction_id: 1,
