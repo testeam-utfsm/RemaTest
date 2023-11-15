@@ -3,7 +3,7 @@ const axios = require('axios');
 
 let conn = async function () {
   return mysql.createConnection({
-    host: 'rematest-db',
+    host: 'testingcd-back-1',
     user: 'root',
     password: 'root',
     database: 'testing',
@@ -42,15 +42,13 @@ describe('Bids', function () {
       throw new Error(r.error);
     }
     const response = await axios.get(host + ":3000/api/bids");
-
-    // expect(response.data).toEqual([{
-    //   id: 1,
-    //   auction_id: 1,
-    //   user_id: 1,
-    //   date: null,
-    //   amount: 99999999,
-    // }]);
-    expect(response.data).toEqual("")
+    expect(response.data).toEqual([{
+      id: 1,
+      auction_id: 1,
+      user_id: 1,
+      date: null,
+      amount: 99999999,
+    }]);
 
     await db.end();
   });

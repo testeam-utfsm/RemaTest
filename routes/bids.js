@@ -29,16 +29,15 @@ router.get('/', cors(), async function (req, res, next) {
     try {
         const db = await conn()
         
-        let r = await db.query('SELECT * FROM bids');
+        let [rows, _] = await db.query('SELECT * FROM bids');
 
-        if (r.error) {
-            throw new Error(r.error);
+        if (rows == undefined) {
+            throw new Error('No bids found');
         }
-
-        res.send(r.results);
+        res.send(rows);
 
     } catch (err) {
-        console.error(err.message);
+        console.log(err.message);
         res.sendStatus(500);
     }
 
@@ -58,7 +57,7 @@ router.get('/:id', cors(), async function (req, res, next) {
         }
 
     } catch (err) {
-        console.error(err.message);
+        console.log(err.message);
         res.sendStatus(500);
     }
 });
@@ -85,9 +84,10 @@ router.post('/', cors(), async function (req, res, next) {
 
         res.sendStatus(200);
     } catch (err) {
-        console.error(err.message);
+        console.log(err.message);
         res.sendStatus(500);
     }
 });
 
 module.exports = router;
+    
