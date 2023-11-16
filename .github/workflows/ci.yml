@@ -25,4 +25,10 @@ jobs:
         cache: 'npm'
     - run: docker compose up -d --build
     - run: npm ci
-    - run: npm test --runInBand
+    - run: npm test --runInBand -- --json --outputFile=out.json
+    - name: Upload results
+      uses: actions/upload-artifact@v3
+      with:
+        name: results
+        path: out.json
+
