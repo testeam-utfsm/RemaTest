@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - run: docker image ls
+    - run: docker compose build
     
     - run: docker image tag rematest-back-1 spypah/testing-back
     - run: docker image tag rematest-front-1 spypah/testing-front
