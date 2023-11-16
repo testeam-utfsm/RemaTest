@@ -20,8 +20,8 @@ jobs:
 
     - run: docker image ls
     
-    - run: docker image tag rematest-back-1 spypah/testing-back
-    - run: docker image tag rematest-front-1 spypah/testing-front
+    - run: docker image tag rematest-back spypah/testing-back
+    - run: docker image tag rematest-front spypah/testing-front
     
     - name: Login to Docker Hub
       uses: docker/login-action@v3
