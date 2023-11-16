@@ -41,7 +41,7 @@ jobs:
         push: true
         tags: spypah/testing-front:latest
   deploy:
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
     - name: pull from docker hub
       uses: appleboy/ssh-action@v0.1.5
