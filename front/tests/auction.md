@@ -1,0 +1,6 @@
+ID|Título|Entrada|Condiciones previas|Resultado esperado|Procedimiento|Resultado obtenido|Fallo o éxito|Comentarios
+---|---|---|---|---|---|---|---|---
+1|Crear subasta|Nombre: Jarrón, Precio: 1000, Fecha inicio: oct 5, Fecha final: oct 6||Se crea una subasta con los datos ingresados|1. Ingresar a la página de subastas en `\new_auction`. 2. Ingresar los datos de la subasta. 3. Presionar el botón de crear subasta.|Se crea la subasta con los datos ingresados.|Éxito
+2|Ver subastas||Existe una o más subastas|Se muestran la subastas creadas|1. Ingresar a la página de subastas en `\auctions`.|Se muestran todas las subastas creadas.|Éxito|Se muestran aún cuando no están activas
+3|Crear puja|Precio: 2000|Existe una subasta con un precio de 1000|El precio de la subasta se actualiza a 2000|1. Ingresar a la página de subastas en `\auctions`. 2. Presionar el botón de pujar. 3. Ingresar el monto a pujar|El precio de la subasta se actualiza a 2000.|Éxito
+4|Monto de puja es menor a precio actual|Precio: 500|Existe una subasta con un precio de 1000|No permite realizar la puja|1. Ingresar a la página de subastas en `\auctions`. 2. Presionar el botón de pujar en la subasta. 3. Ingresar el monto a pujar|Permite realizar la puja|Fallo

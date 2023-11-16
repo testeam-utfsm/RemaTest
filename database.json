@@ -1,0 +1,10 @@
+{
+  "dev": {
+    "host": "rematest-db",
+    "user": "root",
+    "password" : "root" ,
+    "database": "testing",
+    "driver": "mysql",
+    "multipleStatements": true
+  }
+}
