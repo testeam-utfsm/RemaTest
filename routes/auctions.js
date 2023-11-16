@@ -6,9 +6,9 @@ var app = express();
 
 const mysql = require('mysql2');
 const db = mysql.createConnection({
-  host: 'rematest-db',
-  user: 'root',
-  password: 'root',
+  host: 'mysqltestingutfsm',
+  user: 'testingadmin',
+  password: 'LF4DfVLr?+j&}yK',
   database: 'testing',
   port: 3306
 });
