@@ -4,7 +4,7 @@ export default {
   index() {
     return api({
       method: 'get',
-      url: 'http://localhost:3000/api/products',
+      url: '/api/products',
     });
   },
 };
