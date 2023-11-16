@@ -10,7 +10,7 @@
       />
     </div>
     <div>
-      <a href="/auctions/create" class="btn btn-primary">
+      <a href="/auctions/create" class="btn btn-danger">
         Nueva subasta
       </a>
     </div> 
