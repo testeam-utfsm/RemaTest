@@ -113,8 +113,8 @@ router.put('/:id', cors(), function (req, res, next) {
           } else {
 
 
-            db.query('UPDATE auctions SET name = ?, base_price = ?, start_date = ?, end_date = ? WHERE id = ?', [
-                req.body.name, req.body.base_price, req.body.start_date, req.body.end_date, req.params.id],
+            db.query('UPDATE auctions SET name = ?, base_price = ?, current_price = ?, start_date = ?, end_date = ? WHERE id = ?', [
+                req.body.name, req.body.base_price, req.body.base_price, req.body.start_date, req.body.end_date, req.params.id],
                 function (error, results, fields) {
               if (error) throw error;
               res.send(results);

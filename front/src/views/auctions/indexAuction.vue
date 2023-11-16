@@ -19,7 +19,7 @@
         <span>Producto: {{auction.name}}</span>
         <div>
           <div class="btn-container">
-            <a href="#" class="btn btn-warning btn-sm" @click="auction.showEditBidForm = true">Editar</a>
+            <a href="#" class="btn btn-warning btn-sm" @click="auction.showEditBidForm = true; update.id = auction.id">Editar</a>
           </div>
           <button type="button" @click="selectedAuction = auction" class="btn btn-danger btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
             Eliminar
@@ -30,10 +30,8 @@
         <h5 class="card-title text-white">Precio base: {{'$'+ auction.base_price}}</h5>
         <h5 class="card-title text-white">Precio actual: {{'$'+ auction.current_price}}</h5>
         <p class="card-text text-white"></p>
-        <p class="card-text text-white">Fecha inicio: {{(auction.start_date.replace('T',' ')).replace('.000Z','')}}</p>
         <p class="card-text text-white">Fecha inicio: {{ moment(auction.start_date) }}</p>
-        <p class="card-text text-white">Fecha término: {{(auction.end_date.replace('T',' ')).replace('.000Z','')}}</p>
-        <p class="card-text text-white">Fecha inicio: {{ moment(auction.end_date)}}</p>
+        <p class="card-text text-white">Fecha fin: {{ moment(auction.end_date)}}</p>
         <a href="#" class="btn btn-info btn-sm" @click="auction.showBidForm = true">Pujar</a>
       </div>
 
@@ -70,13 +68,14 @@
                   <h3>Editar subasta</h3>
                   <div class="requires-validation" novalidate>
                     <div class="col-md-12">
-                      <input class="form-control" type="text" name="product" placeholder="Nombre producto" required>
+                      <input v-model="update.name" class="form-control" type="text" name="product" placeholder="Nombre producto" required>
                     </div>
                     <div class="col-md-12">
-                      <input class= "form-control" type="text" name="base_price" placeholder="Precio Base" required>
+                      <input v-model="update.base_price" class= "form-control" type="text" name="base_price" placeholder="Precio Base" required>
                     </div>
                     <div class="col-md-12" style="margin-top: 20px;">
                       <input
+                      v-model="update.start_date"
                         type="datetime-local"
                         id="meeting-time"
                         name="meeting-time"
@@ -84,13 +83,14 @@
                     </div>
                     <div class="col-md-12" style="margin-top: 20px;">
                       <input
+                      v-model="update.end_date"
                         type="datetime-local"
                         id="meeting-time"
                         name="meeting-time"
                       />
                     </div>
                     <div class="form-button mt-3" style="margin-top: 20px;">
-                      <button id="submit" @click="handleSubmit" type="submit" class="btn btn-secondary btn-sm">Guardar</button>
+                      <button id="submit" @click="handleUpdate" type="submit" class="btn btn-secondary btn-sm">Guardar</button>
                     </div>
                   </div>
                 </div>
@@ -110,7 +110,6 @@
             </div>
             <div class="modal-body">
               <p>¿Estás seguro de que deseas eliminar esta subasta?</p>
-              {{  auction.id }}
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -139,6 +138,13 @@ export default {
       searchQuery: "",
       filteredAuctions: [],
       selectedAuction: null,
+      update: {
+        id: 0,
+        name: "",
+        base_price: "",
+        start_date: "",
+        end_date: ""
+      }
     };
   },
   mounted() {   
@@ -176,6 +182,19 @@ export default {
       auction.showBidForm = false;
       this.getAuctions();
     },
+    async handleUpdate() {
+      let name = this.update.name;
+      let base_price = this.update.base_price;
+      let start_date = moment(this.update.start_date).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
+      let end_date = moment(this.update.end_date).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
+
+      await auctionApi.update(this.update.id, {
+        name: name,
+        base_price: base_price,
+        start_date: start_date,
+        end_date: end_date
+      }).data;
+    } ,
     filterAuctions() {
       this.filteredAuctions = this.auctions.filter(auction => {
         return auction.name.toLowerCase().includes(this.searchQuery.toLowerCase());
