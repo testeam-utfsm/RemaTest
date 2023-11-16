@@ -131,6 +131,9 @@ import moment from 'moment';
 
 import auctionApi from '@/api/auction.js';
 const axios = require('axios');
+
+axios.defaults.baseURL = window.location.protocol + "//" + window.location.hostname + ":3000";
+
 export default {
   data() {
     return {
@@ -156,7 +159,7 @@ export default {
     },
     async getAuctions() {
       try {
-        const response = await axios.get('http://localhost:3000/api/auctions');
+        const response = await axios.get('/api/auctions');
         this.auctions = response.data.map(auction => ({
           ...auction,
           new_price: auction.current_price,
@@ -170,7 +173,7 @@ export default {
       let currentDate = new Date().toISOString();
       currentDate = currentDate.replace('T', ' ');
       currentDate = currentDate.split('.')[0];
-      let result = await api.post('http://localhost:3000/api/bids', {
+      let result = await api.post('/api/bids', {
         auction_id: auction.id,
         user_id: 1,
         amount: auction.new_price,

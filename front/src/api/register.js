@@ -5,7 +5,7 @@ export default {
      {
       return api({
         method: 'post',
-        url: 'http://localhost:3000/api/register',
+        url: '/api/register',
         data: data,
       });
     },

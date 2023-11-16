@@ -45,6 +45,7 @@ import 'bootstrap';
 import 'bootstrap-datepicker';
 import 'jquery';
 const axios = require('axios');
+axios.defaults.baseURL = window.location.protocol + "//" + window.location.hostname + ":3000";
 
 import moment from 'moment';
 
@@ -67,7 +68,7 @@ export default {
         let start_date = moment(this.formData.start_date).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
         let end_date = moment(this.formData.end_date).add(3, 'hours').format('YYYY-MM-DD HH:mm:ss')
 
-        axios.post("http://localhost:3000/api/auctions?", {
+        axios.post("/api/auctions?", {
             name: this.formData.product,
             base_price: this.formData.base_price,
             start_date: start_date,
