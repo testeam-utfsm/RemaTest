@@ -2,7 +2,7 @@ name: CD
 
 on:
   push:
-    branches: [ "qa" ]
+    branches: [ "prod" ]
 
   workflow_dispatch:
 
@@ -51,5 +51,5 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        script: cd ~/dev/RemaTest ; sudo docker compose up
+        script: cd ~/dev/RemaTest ; sudo docker compose up -d
         use_insecure_cipher: true
