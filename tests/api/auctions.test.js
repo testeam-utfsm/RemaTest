@@ -3,7 +3,7 @@ const axios = require('axios');
 
 let conn = async function () {
   return mysql.createConnection({
-    host: 'rematest-db',
+    host: 'localhost',
     user: 'root',
     password: 'root',
     database: 'testing',
@@ -11,7 +11,7 @@ let conn = async function () {
   })
 };
 
-let host = "http://testingcd-back-1"
+let host = "http://localhost"
 
 describe('auctions', function () {
   beforeEach(async () => {
