@@ -14,7 +14,7 @@ const mysql = require('mysql2/promise');
 
 let conn = async function () {
     return mysql.createConnection({
-      host: 'mysqltestingutfsm',
+      host: 'mysqltestingutfsm.mysql.database.azure.com',
       user: 'testingadmin',
       password: 'LF4DfVLr?+j&}yK',
       database: 'testing',
