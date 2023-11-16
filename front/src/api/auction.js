@@ -19,16 +19,11 @@ export default {
       url: `http://localhost:3000/api/auctions/${id}`,
     });
   },
-  update(id, name, base_price, start_date, end_date) {
+  update(id, data) {
     return api({
       method: 'put',
       url: `http://localhost:3000/api/auctions/${id}`,
-      data: {
-        name: name,
-        base_price: base_price,
-        start_date: start_date,
-        end_date: end_date
-      },
+      data,
     });
   },
 };
