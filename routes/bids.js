@@ -4,26 +4,14 @@ var router = express.Router();
 var cors = require('cors')
 
 const mysql = require('mysql2/promise');
-// const db = mysql.createConnection({
-//     host: 'rematest-db',
-//     user: 'root',
-//     password: 'root',
-//     database: 'testing',
-//     port: 3306
-// });
 
-let conn = async function () {
-    return mysql.createConnection({
-      host: 'mysqltestingutfsm.mysql.database.azure.com',
-      user: 'testingadmin',
-      password: 'LF4DfVLr?+j&}yK',
-      database: 'testing',
-      port: 3306
-    })
-  };
-
-
-  
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DATABASE,
+    port: 3306
+  });
 
 router.get('/', cors(), async function (req, res, next) {
     try {

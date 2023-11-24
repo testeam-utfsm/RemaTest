@@ -11,6 +11,8 @@ var cors = require('cors')
 
 var app = express();
 
+require('dotenv').config()
+
 app.use(cors())
 
 // view engine setup
