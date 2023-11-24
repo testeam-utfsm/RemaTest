@@ -1,8 +1,8 @@
 {
   "dev": {
-    "host": "rematest-db",
-    "user": "root",
-    "password" : "root" ,
+    "host": "mysqltestingutfsm.mysql.database.azure.com",
+    "user": "testingadmin",
+    "password" : "LF4DfVLr?+j&}yK" ,
     "database": "testing",
     "driver": "mysql",
     "multipleStatements": true
