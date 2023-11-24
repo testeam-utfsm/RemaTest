@@ -3,15 +3,15 @@ const axios = require('axios');
 
 let conn = async function () {
   return mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'testing',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DATABASE,
     port: 3306
   })
 };
 
-let host = "http://localhost"
+let host = process.env.APP_HOST
 
 describe('auctions', function () {
   beforeEach(async () => {
