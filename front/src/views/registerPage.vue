@@ -7,13 +7,13 @@
                           <h3>Registro usuario</h3>
                           <div class="requires-validation" novalidate >
                               <div class="col-md-12">
-                                 <input class="form-control" type="text" name="name" placeholder="Ingrese nombre completo" required>
+                                 <input class="form-control" type="text" name="name" placeholder="Ingrese nombre completo" v-model="formData.name" required>
                               </div>
                               <div class="col-md-12">
-                                 <input class="form-control" type="text" name="email" placeholder="Ingrese email" required>
+                                 <input class="form-control" type="text" name="email" placeholder="Ingrese email" v-model="formData.email" required>
                               </div>
                               <div class="col-md-12">
-                                  <input class="form-control" type="text" name="password" placeholder="Ingrese contraseña" required>
+                                  <input class="form-control" type="text" name="password" placeholder="Ingrese contraseña" v-model="formData.password" required>
                               </div>
                               <div class="form-button mt-3" style="margin-top: 20px;">
                                 <button id="submit" @click="handleRegister" type="submit" class="btn btn-secondary">Registrar</button>
@@ -37,7 +37,21 @@
     },
     methods:{
       handleRegister(){
-      }
+        axios.post("/api/?", {
+            name: this.formData.name,
+            email: this.formData.email,
+            password: this.formData.password,
+        })
+        .then(res => {
+            console.log(res);
+            window.alert("Usuario creado con exito")
+        })
+        .catch(error => {
+            console.log(error);
+            window.alert("Error al crear usuario")
+        });
+    }
+      
     }
   };
   </script>

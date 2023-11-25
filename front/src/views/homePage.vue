@@ -7,10 +7,10 @@
                           <h3>Inicia Sesión</h3>
                           <div class="requires-validation" novalidate >
                               <div class="col-md-12">
-                                 <input class="form-control" type="text" name="email" placeholder="Ingrese email" required>
+                                 <input class="form-control" type="text" name="email" v-model="formData.email" placeholder="Ingrese email" required>
                               </div>
                               <div class="col-md-12">
-                                  <input class="form-control" type="text" name="password" placeholder="Ingrese contraseña" required>
+                                  <input class="form-control" type="text" name="password" v-model="formData.password" placeholder="Ingrese contraseña" required>
                               </div>
                               <div class="form-button mt-3" style="margin-top: 20px;">
                                 <button id="submit" @click="handleSubmit" type="submit" class="btn btn-secondary">Iniciar sesión</button>
@@ -34,11 +34,24 @@
     mounted() {    
     },
     methods:{
-      handleSubmit(){
-      },
-      handleRegister(){
-        this.$router.push('/register')
-      }
+        handleSubmit(){
+        axios.post("/api/?", {
+            email: this.formData.email,
+            password: this.formData.password,
+        })
+        .then(res => {
+            console.log(res);
+            window.alert("Inicio sesión exitoso")
+        })
+        .catch(error => {
+            console.log(error);
+            window.alert("Error al iniciar sesión")
+        });
+    },
+
+        handleRegister(){
+            this.$router.push('/register')
+    }
     }
   };
   </script>
