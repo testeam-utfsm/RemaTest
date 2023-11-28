@@ -2,6 +2,7 @@
 import pytest
 import time
 import json
+import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -13,6 +14,19 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 host = 'http://localhost'
 
 driver = None
+
+class Test(unittest.TestCase):
+  def setUp(self):
+    self.driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument('--lang=en-us')
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--remote-debugging-port=9222')
+    self.driver = webdriver.Chrome(options=options)
+
 
 def test_create(driver):
   current_time = time.strftime("%Y-%m-%dT%H:%M", time.localtime())   
@@ -108,8 +122,8 @@ def main():
     test_searchInexistent(driver)
     driver.quit()
 
-    driver = webdriver.Chrome(options=options)
-    test_pujar(driver)
-    driver.quit()
+    #driver = webdriver.Chrome(options=options)
+    #test_pujar(driver)
+    #driver.quit()
 
 main()
