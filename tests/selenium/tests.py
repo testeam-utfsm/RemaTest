@@ -81,7 +81,7 @@ def test_searchNombre(driver):
 
 def main():
     options = webdriver.ChromeOptions()
-    options.add_argument('--lang=en-us')
+    options.add_argument('--lang=en-us --disable-gpu --no-sandbox --disable-dev-shm-usage')
 
     driver = webdriver.Chrome(options=options)
     test_create(driver)

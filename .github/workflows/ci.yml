@@ -33,4 +33,4 @@ jobs:
       
       - uses: browser-actions/setup-chrome@latest
       - run: pip install pytest selenium
-      - run: python3 tests/selenium/tests.py --headless --disable-gpu --no-sandbox --disable-dev-shm-usage
+      - run: python3 tests/selenium/tests.py
