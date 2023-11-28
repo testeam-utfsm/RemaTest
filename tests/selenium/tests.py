@@ -80,30 +80,30 @@ def test_searchNombre(driver):
   assert driver.find_element(By.CSS_SELECTOR, ".card-header > span").text == "Producto: Nombre producto nuevo"
 
 def main():
-    options = webdriver.EdgeOptions()
+    options = webdriver.ChromeOptions()
     options.add_argument('--lang=en-us')
 
-    driver = webdriver.Edge(options=options)
+    driver = webdriver.Chrome(options=options)
     test_create(driver)
     driver.quit()
 
-    driver = webdriver.Edge(options=options)
+    driver = webdriver.Chrome(options=options)
     test_delete(driver)
     driver.quit()
 
-    driver = webdriver.Edge(options=options)
+    driver = webdriver.Chrome(options=options)
     test_create(driver)
     driver.quit()
 
-    driver = webdriver.Edge(options=options)
+    driver = webdriver.Chrome(options=options)
     test_searchNombre(driver)
     driver.quit()
 
-    driver = webdriver.Edge(options=options)
+    driver = webdriver.Chrome(options=options)
     test_searchInexistent(driver)
     driver.quit()
 
-    driver = webdriver.Edge(options=options)
+    driver = webdriver.Chrome(options=options)
     test_pujar(driver)
     driver.quit()
 
