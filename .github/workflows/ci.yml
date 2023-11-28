@@ -30,10 +30,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: docker compose up -d --build
-      - run: npm ci
-      #- run: npm test --runInBand
-      #- name: Upload results
-      #  uses: actions/upload-artifact@v3
-      #  with:
-      #    name: results
-      #    path: out.json
+      
+      - uses: browser-actions/setup-chrome@latest
+      - run: pip install pytest selenium
+      - run: python3 tests/selenium/tests.py
