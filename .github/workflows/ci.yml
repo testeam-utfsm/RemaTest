@@ -31,6 +31,6 @@ jobs:
           cache: "npm"
       - run: docker compose up -d --build
       
-      - uses: browser-actions/setup-chrome@ubuntu-latest
+      - uses: browser-actions/setup-chrome@latest
       - run: pip install pytest selenium
       - run: python3 tests/selenium/tests.py --headless --disable-gpu --no-sandbox --disable-dev-shm-usage
