@@ -1,9 +1,9 @@
 {
   "dev": {
-    "host": "mysqltestingutfsm.mysql.database.azure.com",
-    "user": "testingadmin",
-    "password" : "LF4DfVLr?+j&}yK" ,
-    "database": "testing",
+    "host": {"ENV": "DB_HOST"},
+    "user": {"ENV": "DB_USERNAME"},
+    "password" : {"ENV": "DB_PASSWORD"},
+    "database": {"ENV": "DATABASE"},
     "driver": "mysql",
     "multipleStatements": true
   }
