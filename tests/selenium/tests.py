@@ -32,7 +32,7 @@ def test_create(driver):
   driver.execute_script("document.querySelector('.col-md-12:nth-child(4) > #meeting-time').value = '" + current_time + "'")
   driver.execute_script("document.querySelector('.col-md-12:nth-child(4) > #meeting-time').dispatchEvent(new Event('input', { 'bubbles': true }))")
   driver.find_element(By.ID, "submit").click()
-  time.sleep(1)
+  time.sleep(3)
   assert driver.switch_to.alert.text == "Subasta creada con exito"
 
 def test_delete(driver):
@@ -40,9 +40,9 @@ def test_delete(driver):
   driver.set_window_size(1004, 1124)
 
   driver.find_element(By.CSS_SELECTOR, ".mt-3").click()
-  time.sleep(1)
+  time.sleep(3)
   driver.find_element(By.CSS_SELECTOR, ".modal-footer > .btn-danger").click()
-  time.sleep(1)
+  time.sleep(3)
 
   assert driver.switch_to.alert.text == "OK"
 
@@ -54,9 +54,9 @@ def test_pujar(driver):
   driver.execute_script("document.getElementsByName('amount')[0].value = '1235'")
   driver.execute_script("document.getElementsByName('amount')[0].dispatchEvent(new Event('input', { 'bubbles': true }))")
 
-  time.sleep(1)
+  time.sleep(3)
   driver.execute_script("document.getElementById('submit').click()")
-  time.sleep(1)
+  time.sleep(3)
   
   assert driver.find_element(By.CSS_SELECTOR, "div > div:nth-child(3) > div.card-body > h5:nth-child(2)").text == "Precio actual: $1235"
   
@@ -65,7 +65,7 @@ def test_searchInexistent(driver):
   driver.set_window_size(1004, 1124)
   driver.execute_script("document.querySelector('.form-control').value = 'cualquier cosa'")
   driver.execute_script("document.querySelector('.form-control').dispatchEvent(new Event('input', { 'bubbles': true }))")
-  time.sleep(1)
+  time.sleep(3)
 
   assert len(driver.find_elements(By.CSS_SELECTOR, ".card-header > span")) == 0   
 
@@ -75,7 +75,7 @@ def test_searchNombre(driver):
   driver.find_element(By.CSS_SELECTOR, ".form-control").click()
   driver.execute_script("document.querySelector('.form-control').value = 'nombre'")
   driver.execute_script("document.querySelector('.form-control').dispatchEvent(new Event('input', { 'bubbles': true }))")
-  time.sleep(1)
+  time.sleep(3)
 
   assert driver.find_element(By.CSS_SELECTOR, ".card-header > span").text == "Producto: Nombre producto nuevo"
 
