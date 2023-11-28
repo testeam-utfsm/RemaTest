@@ -50,13 +50,13 @@ def test_pujar(driver):
   driver.get(host)
   driver.set_window_size(1004, 1124)
   driver.find_element(By.LINK_TEXT, "Pujar").click()
-  time.sleep(2)
+  time.sleep(4)
   driver.execute_script("document.getElementsByName('amount')[0].value = '1235'")
   driver.execute_script("document.getElementsByName('amount')[0].dispatchEvent(new Event('input', { 'bubbles': true }))")
 
-  time.sleep(3)
+  time.sleep(5)
   driver.execute_script("document.getElementById('submit').click()")
-  time.sleep(3)
+  time.sleep(5)
   
   assert driver.find_element(By.CSS_SELECTOR, "div > div:nth-child(3) > div.card-body > h5:nth-child(2)").text == "Precio actual: $1235"
   
